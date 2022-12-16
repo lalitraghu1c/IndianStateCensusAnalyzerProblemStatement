@@ -9,7 +9,11 @@ namespace IndianStateCensusAnalyzerTestPoblem
         public string stateCencusIncorrectFilePath = @"D:\Projects-Bridgelabz\IndianStateCensusAnalyzerProblemStatement\IndianStateCensusAnalyzerProblem\Files\";
         public string typeIncorrectFilePath = @"D:\Projects-Bridgelabz\IndianStateCensusAnalyzerProblemStatement\IndianStateCensusAnalyzerProblem\Files\DemoTxt.txt";
         public string delimeterFilePath = @"D:\Projects-Bridgelabz\IndianStateCensusAnalyzerProblemStatement\IndianStateCensusAnalyzerProblem\Files\CSVStateCencusDelimeter.csv";
-        
+        public string stateCodeFilePath = @"D:\Projects-Bridgelabz\IndianStateCensusAnalyzerProblemStatement\IndianStateCensusAnalyzerProblem\Files\StateCode.csv";
+        public string stateCodeIncorrectFilePath = @"D:\Projects-Bridgelabz\IndianStateCensusAnalyzerProblemStatement\IndianStateCensusAnalyzerProblem\Files\";
+        public string typeIncorrectFilePath1 = @"D:\Projects-Bridgelabz\IndianStateCensusAnalyzerProblemStatement\IndianStateCensusAnalyzerProblem\Files\DemoTxt.txt";
+        public string delimeterFilePath1 = @"D:\Projects-Bridgelabz\IndianStateCensusAnalyzerProblemStatement\IndianStateCensusAnalyzerProblem\Files\CSVStateCodeDelimeter.csv";
+
         [Test]
         public void GivenStateCencusData_WhenAnalyzed_ShouldReturnNoOfRecordsMatches()
         {
@@ -69,6 +73,69 @@ namespace IndianStateCensusAnalyzerTestPoblem
                 Assert.IsTrue(records);
             }
             catch (StateCencusException ex)
+            {
+                Assert.AreEqual(ex.Message, "Incorrect Header");
+            }
+        }
+        [Test]
+        public void GivenStateCodeData_WhenAnalyzed_ShouldReturnNoOfRecordsMatches()
+        {
+            IndianCencusAnalyzer analyzerProblem = new IndianCencusAnalyzer();
+            CSVStateCode cSVState = new CSVStateCode();
+            Assert.AreEqual(cSVState.ReadStateCodeData(stateCodeFilePath), analyzerProblem.ReadStateCodeData(stateCodeFilePath));
+        }
+        [Test]
+        public void GivenStateCodeDataFileIncorrect_WhenAnalyzed_ShouldReturnException()
+        {
+            IndianCencusAnalyzer analyzer = new IndianCencusAnalyzer();
+            try
+            {
+                int records = analyzer.ReadStateCodeData(stateCodeIncorrectFilePath);
+            }
+            catch (StateCodeException ex)
+            {
+                Assert.AreEqual(ex.Message, "Incorrect file path");
+            }
+
+        }
+        [Test]
+        public void GivenStateCodeDataFileTypeIncorrect_WhenAnalyzed_ShouldReturnException()
+        {
+            IndianCencusAnalyzer analyzer = new IndianCencusAnalyzer();
+            try
+            {
+                int records = analyzer.ReadStateCodeData(typeIncorrectFilePath);
+            }
+            catch (StateCodeException ex)
+            {
+                Assert.AreEqual(ex.Message, "Type Incorrect");
+            }
+        }
+
+        [Test]
+        public void GivenStateCodeDataFileDelimeterIncorrect_WhenAnalyzed_ShouldReturnException()
+        {
+            IndianCencusAnalyzer analyzer = new IndianCencusAnalyzer();
+            try
+            {
+                int records = analyzer.ReadStateCodeData(delimeterFilePath);
+            }
+            catch (StateCodeException ex)
+            {
+                Assert.AreEqual(ex.Message, "Incorrect Delimeter");
+            }
+        }
+
+        [Test]
+        public void GivenStateCodeDataFileHeaderIncorrect_WhenAnalyzed_ShouldReturnException()
+        {
+            IndianCencusAnalyzer indianCencusAnalyzer = new IndianCencusAnalyzer();
+            try
+            {
+                bool records = indianCencusAnalyzer.ReadStateCodeData(delimeterFilePath, "SrNo, State, TIN, StateCode");
+                Assert.IsTrue(records);
+            }
+            catch (StateCodeException ex)
             {
                 Assert.AreEqual(ex.Message, "Incorrect Header");
             }
